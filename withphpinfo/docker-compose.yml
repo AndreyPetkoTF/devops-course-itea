@@ -1,0 +1,21 @@
+version: "3.6"
+services:
+  php-fpm:
+    image: webdevops/php:7.3
+    hostname: php-fpm
+    working_dir: "/app"
+    volumes:
+      - "./:/app"
+  nginx:
+    image: webdevops/nginx
+    hostname: nginx
+    environment:
+      WEB_DOCUMENT_ROOT: /app
+      WEB_DOCUMENT_INDEX: index.php
+      WEB_PHP_SOCKET: php-fpm:9000
+    volumes:
+      - "./:/app"
+    depends_on:
+      - php-fpm
+    ports:
+      - "80:80"
